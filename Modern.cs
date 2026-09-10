@@ -16,6 +16,12 @@ using System.Runtime.InteropServices;
 using System.Xml.Linq;
 using Forms = System.Windows.Forms;
 
+[assembly: AssemblyTitle("PenguinStickyNotes")]
+[assembly: AssemblyCompany("RePiplup")]
+[assembly: AssemblyProduct("鹅鹅便利贴")]
+[assembly: AssemblyCopyright("Copyright © 2026 RePiplup")]
+[assembly: AssemblyVersion("0.1.2.0")]
+[assembly: AssemblyFileVersion("0.1.2.0")]
 namespace StickyModern {
  class TaskItem {
   public Grid Row; public TextBox Editor; public TextBlock DoneText; public CheckBox Check;
@@ -119,7 +125,21 @@ namespace StickyModern {
    menu.Opened += delegate { try { startup.IsChecked = StartupSetting.IsEnabled(); } catch { startup.IsEnabled = false; } hotkeyOption.IsChecked = hotkeyEnabled; };
    hotkeyOption = new MenuItem { Header = "显示/隐藏快捷键（Ctrl+Alt+N）", IsCheckable = true, IsChecked = hotkeyEnabled }; menu.Items.Add(hotkeyOption);
    hotkeyOption.Click += delegate { hotkeyEnabled = hotkeyOption.IsChecked; Changed(); ApplyHotkey(); };
+   menu.Items.Add(new Separator());
+   var about = new MenuItem { Header = "关于鹅鹅便利贴 · RePiplup" }; about.Click += delegate { ShowAbout(); }; menu.Items.Add(about);
    Find<Button>("More").Click += delegate { menu.PlacementTarget = Find<Button>("More"); menu.IsOpen = true; };
+  }
+  void ShowAbout() {
+   var dialog = new Window { Title = "关于鹅鹅便利贴", Owner = Window, Width = 340, SizeToContent = SizeToContent.Height, ResizeMode = ResizeMode.NoResize, WindowStartupLocation = WindowStartupLocation.CenterOwner, Background = Brush("#FFFCF4"), FontFamily = new FontFamily("Microsoft YaHei UI"), Topmost = Window.Topmost };
+   var panel = new StackPanel { Margin = new Thickness(24) }; dialog.Content = panel;
+   panel.Children.Add(new TextBlock { Text = "鹅鹅便利贴", FontSize = 22, Foreground = Brush("#344D62") });
+   panel.Children.Add(new TextBlock { Text = "PenguinStickyNotes · v0.1.2", Margin = new Thickness(0,8,0,16) });
+   panel.Children.Add(new TextBlock { Text = "作者：RePiplup", FontSize = 16 });
+   panel.Children.Add(new TextBlock { Text = "随手记下眼前的事情，做完就划掉。", TextWrapping = TextWrapping.Wrap, Margin = new Thickness(0,12,0,16) });
+   var profile = new Button { Content = "GitHub · RePiplup", Padding = new Thickness(12,8,12,8) };
+   profile.Click += delegate { try { System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo("https://github.com/RePiplup") { UseShellExecute = true }); } catch { MessageBox.Show(dialog, "请在浏览器打开 https://github.com/RePiplup", "GitHub 主页"); } }; panel.Children.Add(profile);
+   panel.Children.Add(new TextBlock { Text = "Copyright © 2026 RePiplup", FontSize = 11, Foreground = Brush("#77796E"), Margin = new Thickness(0,16,0,0) });
+   dialog.ShowDialog();
   }
   void ApplyTheme(string value) { theme = value; var paper = Brush(value == "white" ? "#FAFAF8" : value == "sage" ? "#EFF3E9" : "#FFFCF4"); Window.Background = paper; Find<Border>("Paper").Background = paper; Find<Border>("Composer").Background = Brush(value == "white" ? "#EFEFEC" : value == "sage" ? "#E2E9DB" : "#F2F0E5"); }
   public void AddInput() { if(string.IsNullOrWhiteSpace(Input.Text)) return; AddTask(Input.Text.Trim(), false); Input.Clear(); Changed(); Input.Focus(); Window.Dispatcher.BeginInvoke(new Action(delegate { Find<ScrollViewer>("TaskScroll").ScrollToEnd(); }), DispatcherPriority.Background); }
@@ -217,4 +237,5 @@ namespace StickyModern {
   }
  }
 }
+
 

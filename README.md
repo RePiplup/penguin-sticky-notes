@@ -1,5 +1,7 @@
 # 鹅鹅便利贴
 
+作者：**[RePiplup](https://github.com/RePiplup)**。
+
 贴在 Windows 桌面上的一张虚拟即时贴。随手记下眼前的事情，做完就划掉。
 
 奶油色纸面、鹅鹅头像、本地自动保存，无需注册账号。
@@ -8,7 +10,7 @@
 
 ## 下载与使用
 
-在本仓库的 Releases 下载 `PenguinStickyNotes-v0.1.1-windows.zip`，解压到固定文件夹后，双击 `PenguinStickyNotes.exe`。
+在本仓库的 Releases 下载 `PenguinStickyNotes-v0.1.2-windows.zip`，解压到固定文件夹后，双击 `PenguinStickyNotes.exe`。
 
 使用 WPF / .NET Framework，面向 Windows 10 / 11。当前版本未做数字签名，兼容性验证以发布说明为准。
 
@@ -25,6 +27,7 @@
 | 隐藏 / 显示 | Ctrl+Alt+N，可在更多菜单关闭 |
 | 隐藏到托盘 | 顶部 −；双击托盘图标恢复 |
 | 退出 | 顶部 × 或托盘菜单 → 退出 |
+| 关于与作者 | 更多菜单 → 关于鹅鹅便利贴 · RePiplup |
 | 开机启动 | 更多菜单 → 开机启动，默认关闭 |
 
 拖动标题栏移动窗口，拖动边缘调整大小。三种纸面配色可在更多菜单切换。
@@ -68,3 +71,4 @@ powershell -ExecutionPolicy Bypass -File .\build.ps1
 当前尚未完成真实中文输入法候选词、所有多显示器 DPI 组合、开机登录启动和全局热键实际按键的完整人工验收。
 
 更新记录见 [CHANGELOG.md](CHANGELOG.md)。问题反馈请附 Windows 版本、复现步骤和截图，并隐去私人任务内容。
+
