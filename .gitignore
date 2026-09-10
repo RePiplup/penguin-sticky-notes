@@ -1,0 +1,8 @@
+*.exe
+*.lnk
+qa-modern/
+release/
+.tools/
+weather-result.txt
+*.tmp
+*.bak
