@@ -31,7 +31,7 @@ namespace StickyModern {
   bool hotkeyEnabled = true, hotkeyRegistered; HwndSource hotkeySource;
   const int HotkeyId = 0x4745;
   MenuItem hotkeyOption;
-  WeatherCity city; bool disposed, weatherBusy; DateTime nextWeather = DateTime.MinValue; DispatcherTimer clock = new DispatcherTimer(); System.Drawing.Icon gooseIcon;
+  WeatherCity city; bool disposed, weatherBusy; DateTime nextWeather = DateTime.MinValue; DispatcherTimer clock = new DispatcherTimer(); System.Drawing.Icon penguinIcon;
   public Note(string dataPath, bool testing, Func<WeatherCity, System.Threading.Tasks.Task<string>> fetchWeather = null) {
    path = dataPath; test = testing;
    weatherFetch = fetchWeather ?? WeatherService.Fetch;
@@ -40,8 +40,8 @@ namespace StickyModern {
    var textStyle = new Style(typeof(TextBox), (Style)Window.Resources[typeof(TextBox)]); textStyle.Setters.Add(new Setter(Control.FontFamilyProperty, rounded)); Window.Resources[typeof(TextBox)] = textStyle;
    WindowChrome.SetWindowChrome(Window, new WindowChrome { CaptionHeight = 0, ResizeBorderThickness = new Thickness(6), GlassFrameThickness = new Thickness(0), CornerRadius = new CornerRadius(12) });
    tasks = Find<StackPanel>("Tasks"); Input = Find<TextBox>("Input"); status = Find<TextBlock>("Status"); placeholder = Find<TextBlock>("Placeholder"); pin = Find<Button>("Pin");
-   var logo = new BitmapImage(); using(var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("goose.png")) { logo.BeginInit(); logo.CacheOption = BitmapCacheOption.OnLoad; logo.StreamSource = stream; logo.DecodePixelWidth = 256; logo.EndInit(); logo.Freeze(); } Window.Icon = logo; Find<ImageBrush>("GooseBrush").ImageSource = logo;
-   using(var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("goose.ico")) { using(var icon = new System.Drawing.Icon(stream)) gooseIcon = (System.Drawing.Icon)icon.Clone(); }
+   var logo = new BitmapImage(); using(var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("penguin.png")) { logo.BeginInit(); logo.CacheOption = BitmapCacheOption.OnLoad; logo.StreamSource = stream; logo.DecodePixelWidth = 256; logo.EndInit(); logo.Freeze(); } Window.Icon = logo; Find<ImageBrush>("PenguinBrush").ImageSource = logo;
+   using(var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("penguin.ico")) { using(var icon = new System.Drawing.Icon(stream)) penguinIcon = (System.Drawing.Icon)icon.Clone(); }
    Find<Button>("Weather").Click += delegate { ChooseCity(); };
    Find<Grid>("DragBar").MouseLeftButtonDown += delegate(object s, MouseButtonEventArgs e) { if(e.OriginalSource is Grid || e.OriginalSource is TextBlock || e.OriginalSource is System.Windows.Shapes.Ellipse) Window.DragMove(); };
    pin.Click += delegate { Window.Topmost = !Window.Topmost; UpdatePin(); Changed(); };
@@ -63,7 +63,7 @@ namespace StickyModern {
    Window.Closed += delegate { Dispose(); };
    Window.SourceInitialized += delegate { try { int value = 2; DwmSetWindowAttribute(new WindowInteropHelper(Window).Handle, 33, ref value, 4); } catch(DllNotFoundException) {} catch(EntryPointNotFoundException) {} if(!test) { hotkeySource = HwndSource.FromHwnd(new WindowInteropHelper(Window).Handle); hotkeySource.AddHook(HotkeyHook); ApplyHotkey(); } };
    if(!test) {
-    tray = new Forms.NotifyIcon { Icon = gooseIcon, Text = "鹅鹅便利贴", Visible = true };
+    tray = new Forms.NotifyIcon { Icon = penguinIcon, Text = "鹅鹅便利贴", Visible = true };
     var menu = new Forms.ContextMenuStrip(); menu.Items.Add("显示便利贴", null, delegate { Window.Show(); Window.Activate(); }); menu.Items.Add("退出", null, delegate { Window.Close(); }); tray.ContextMenuStrip = menu; tray.DoubleClick += delegate { Window.Show(); Window.Activate(); };
    }
   }
@@ -181,14 +181,14 @@ namespace StickyModern {
    Window.Topmost = (bool?)root.Attribute("pinned") ?? true; Input.Text = (string)root.Attribute("draft") ?? ""; ApplyTheme((string)root.Attribute("theme") ?? "cream");
    foreach(var task in root.Elements("task")) AddTask(task.Value, (bool?)task.Attribute("done") ?? false);
   }
-  public void Dispose() { disposed = true; timer.Stop(); clock.Stop(); if(hotkeySource != null) { if(hotkeyRegistered) UnregisterHotKey(hotkeySource.Handle, HotkeyId); hotkeySource.RemoveHook(HotkeyHook); hotkeySource = null; hotkeyRegistered = false; } if(tray != null) { tray.Dispose(); tray = null; } if(gooseIcon != null) { gooseIcon.Dispose(); gooseIcon = null; } }
+  public void Dispose() { disposed = true; timer.Stop(); clock.Stop(); if(hotkeySource != null) { if(hotkeyRegistered) UnregisterHotKey(hotkeySource.Handle, HotkeyId); hotkeySource.RemoveHook(HotkeyHook); hotkeySource = null; hotkeyRegistered = false; } if(tray != null) { tray.Dispose(); tray = null; } if(penguinIcon != null) { penguinIcon.Dispose(); penguinIcon = null; } }
  }
  static class StartupSetting {
   const string RunKey = @"Software\Microsoft\Windows\CurrentVersion\Run";
-  const string ValueName = "GooseStickyNotes";
+  const string ValueName = "PenguinStickyNotes";
   public static string Command { get { return "\"" + Assembly.GetExecutingAssembly().Location + "\""; } }
   public static bool IsEnabled() { using(var key = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(RunKey)) return key != null && string.Equals(key.GetValue(ValueName) as string, Command, StringComparison.OrdinalIgnoreCase); }
-  public static void SetEnabled(bool enabled) { using(var key = Microsoft.Win32.Registry.CurrentUser.CreateSubKey(RunKey)) { if(enabled) key.SetValue(ValueName, Command); else key.DeleteValue(ValueName, false); } }
+  public static void SetEnabled(bool enabled) { using(var key = Microsoft.Win32.Registry.CurrentUser.CreateSubKey(RunKey)) { if(enabled) key.SetValue(ValueName, Command); else key.DeleteValue(ValueName, false); key.DeleteValue("GooseStickyNotes", false); } }
  }
  static class Program {
   [STAThread] static void Main(string[] args) {
@@ -217,3 +217,4 @@ namespace StickyModern {
   }
  }
 }
+

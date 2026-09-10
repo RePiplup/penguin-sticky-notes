@@ -8,7 +8,7 @@
 
 ## 下载与使用
 
-在本仓库的 Releases 下载 `GooseStickyNotes-v0.1.0-windows.zip`，解压到固定文件夹后，双击 `GooseStickyNotes.exe`。
+在本仓库的 Releases 下载 `PenguinStickyNotes-v0.1.1-windows.zip`，解压到固定文件夹后，双击 `PenguinStickyNotes.exe`。
 
 使用 WPF / .NET Framework，面向 Windows 10 / 11。当前版本未做数字签名，兼容性验证以发布说明为准。
 
@@ -52,13 +52,13 @@
 powershell -ExecutionPolicy Bypass -File .\build.ps1
 ```
 
-输出为 `GooseStickyNotes.exe`。构建调用 Windows 自带的 .NET Framework C# 编译器，无需联网下载构建依赖。
+输出为 `PenguinStickyNotes.exe`。构建调用 Windows 自带的 .NET Framework C# 编译器，无需联网下载构建依赖。
 
 ## 验证
 
 ```powershell
-.\GooseStickyNotes.exe --verify
-.\GooseStickyNotes.exe --verify-weather
+.\PenguinStickyNotes.exe --verify
+.\PenguinStickyNotes.exe --verify-weather
 ```
 
 `--verify` 使用 `qa-modern` 内的独立测试数据，不读取或修改真实任务、不设置开机启动、不注册全局快捷键。结果写入 `qa-modern/result.txt`，并生成常规 / 窄窗口截图。覆盖排序边界与顺序恢复、显示隐藏、长文本、多行输入、完成状态、草稿、农历和天气异步场景。

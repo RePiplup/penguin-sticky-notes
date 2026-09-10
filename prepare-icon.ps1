@@ -1,8 +1,8 @@
 $ErrorActionPreference = 'Stop'
 Add-Type -AssemblyName System.Drawing
 New-Item -ItemType Directory -Path (Join-Path $PSScriptRoot 'assets') -Force | Out-Null
-$original = Join-Path $PSScriptRoot 'assets\goose.png'
-if (-not (Test-Path -LiteralPath $original)) { throw 'Place the original icon at assets/goose.png first.' }
+$original = Join-Path $PSScriptRoot 'assets\penguin.png'
+if (-not (Test-Path -LiteralPath $original)) { throw 'Place the original icon at assets/penguin.png first.' }
 $source = [Drawing.Image]::FromFile($original)
 $chunks = @()
 $sizes = @(16,24,32,48,64,128,256)
@@ -17,7 +17,7 @@ try {
         $chunks += ,$stream.ToArray()
         $graphics.Dispose(); $bitmap.Dispose(); $stream.Dispose()
     }
-    $file = [IO.File]::Create((Join-Path $PSScriptRoot 'assets\goose.ico'))
+    $file = [IO.File]::Create((Join-Path $PSScriptRoot 'assets\penguin.ico'))
     $writer = New-Object IO.BinaryWriter($file)
     $writer.Write([UInt16]0); $writer.Write([UInt16]1); $writer.Write([UInt16]$sizes.Count)
     $offset = 6 + 16 * $sizes.Count

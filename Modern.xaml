@@ -30,7 +30,7 @@
    <StackPanel Grid.Row="1" Margin="2,14,2,14">
     <Grid Margin="0,0,0,12"><Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="68"/></Grid.ColumnDefinitions>
      <StackPanel VerticalAlignment="Center" Margin="0,0,6,0"><TextBlock x:Name="Headline" Text="专注当下，稳步推进" TextWrapping="Wrap" FontSize="16" Foreground="#344D62"/><TextBlock Text="今日计划 · 逐项完成" Margin="0,7,0,0" FontSize="11" Foreground="#A69A77"/></StackPanel>
-     <Border Grid.Column="1" CornerRadius="16" Width="64" Height="64" ClipToBounds="True"><Border.Background><ImageBrush x:Name="GooseBrush" Stretch="UniformToFill"/></Border.Background></Border>
+     <Border Grid.Column="1" CornerRadius="16" Width="64" Height="64" ClipToBounds="True"><Border.Background><ImageBrush x:Name="PenguinBrush" Stretch="UniformToFill"/></Border.Background></Border>
     </Grid>
     <Border Background="#FFF3CB" CornerRadius="10" Padding="11,9">
      <StackPanel><TextBlock x:Name="Date" TextWrapping="Wrap" FontSize="12" Foreground="#8C7954"/>
